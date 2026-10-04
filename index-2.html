@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Šuplík – všechny dokumenty na jednom místě</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f3a5f">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Šuplík">
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--tx:#1b2430;--mut:#6b7684;--pri:#1f3a5f;--priTx:#fff;--bd:#e1e6ed;--warn:#b26a00;--warnBg:#fff3dc;--bad:#b3261e;--badBg:#fde7e5;--ok:#1d7a46;--okBg:#e2f4ea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151c;--card:#19212b;--tx:#e8edf3;--mut:#9aa6b4;--pri:#7fa8dc;--priTx:#0b1522;--bd:#2a3542;--warn:#f0b45a;--warnBg:#3a2c12;--bad:#ff9a92;--badBg:#3d1c1a;--ok:#74d39b;--okBg:#12301f}}
+:root[data-theme="dark"]{--bg:#10151c;--card:#19212b;--tx:#e8edf3;--mut:#9aa6b4;--pri:#7fa8dc;--priTx:#0b1522;--bd:#2a3542;--warn:#f0b45a;--warnBg:#3a2c12;--bad:#ff9a92;--badBg:#3d1c1a;--ok:#74d39b;--okBg:#12301f}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 110px}
+h1{font-size:24px;margin:4px 0 2px;color:var(--pri)}.sub{color:var(--mut);font-size:13px;margin-bottom:12px}
+input,select,textarea,button{font:inherit;color:inherit}
+.search{width:100%;padding:12px 14px;border:1px solid var(--bd);border-radius:12px;background:var(--card)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:8px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--card);cursor:pointer;white-space:nowrap;font-size:14px}
+.chip.on{background:var(--pri);color:var(--priTx);border-color:var(--pri)}
+.sec{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);margin:16px 0 8px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;cursor:pointer}
+.ico{font-size:26px;width:40px;text-align:center}.grow{flex:1;min-width:0}.t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.m{font-size:13px;color:var(--mut)}
+.badge{font-size:12px;font-weight:700;padding:4px 8px;border-radius:10px;white-space:nowrap}
+.b-ok{background:var(--okBg);color:var(--ok)}.b-warn{background:var(--warnBg);color:var(--warn)}.b-bad{background:var(--badBg);color:var(--bad)}.b-none{background:var(--bd);color:var(--mut)}
+.alert{background:var(--warnBg);border:1px solid var(--warn);color:var(--tx);border-radius:14px;padding:12px 14px;margin:8px 0}
+.fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:60px;height:60px;border-radius:30px;border:0;background:var(--pri);color:var(--priTx);font-size:32px;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer}
+.shade{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:5}.shade.on{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;background:var(--card);border-radius:20px 20px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));z-index:6;display:none;max-width:560px;margin:0 auto}
+.sheet.on{display:block}
+label{display:block;font-size:13px;color:var(--mut);margin:12px 0 4px}
+.f{width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.btn{padding:12px 16px;border-radius:12px;border:1px solid var(--bd);background:var(--card);cursor:pointer;font-weight:600}
+.btn.p{background:var(--pri);color:var(--priTx);border-color:var(--pri)}.btn.d{color:var(--bad)}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.thumbs img{width:100%;max-width:240px;border-radius:10px;border:1px solid var(--bd)}
+.fl{font-size:13px;padding:6px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--bd);margin:4px 4px 0 0;display:inline-block}
+.note{font-size:12px;color:var(--mut);margin-top:14px}.warnbox{font-size:12px;background:var(--warnBg);color:var(--tx);border-radius:10px;padding:8px 10px;margin-top:8px}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}.foot{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🗄️ Šuplík</h1>
+  <div class="sub">Všechny doklady, záruky a lhůty na jednom místě. Data zůstávají jen v tomto zařízení.</div>
+  <input class="search" id="q" type="search" placeholder="Hledat dokument…" aria-label="Hledat">
+  <div class="chips" id="chips"></div>
+  <div id="alerts"></div>
+  <div id="list"></div>
+  <div class="foot">
+    <button class="btn" id="bBackup">Zálohovat (JSON)</button>
+    <button class="btn" id="bRestore">Obnovit ze zálohy</button>
+    <button class="btn" id="bDemo">Ukázková data</button>
+  </div>
+  <input type="file" id="fRestore" accept=".json,application/json" hidden>
+  <div class="note" id="msg"></div>
+  <div class="note">Data jsou uložena v prohlížeči tohoto zařízení; při smazání dat prohlížeče zmizí, proto zálohuj. Připomínky se zobrazují po otevření aplikace.</div>
+</div>
+<button class="fab" id="add" aria-label="Přidat dokument">+</button>
+<div class="shade" id="shade"></div>
+<div class="sheet" id="sheet"></div>
+
+<script>
+var CATS=[["doklady","Doklady","🪪"],["zaruky","Záruky a účtenky","🧾"],["faktury","Faktury a účty","💳"],["smlouvy","Smlouvy","📄"],["pojisteni","Pojištění","🛡️"],["auto","Auto","🚗"],["zdravi","Zdraví","🩺"],["jine","Jiné","📦"]];
+var items=[],cat="all",qs="",useIDB=true,db=null;
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function catOf(id){return CATS.filter(function(c){return c[0]===id})[0]||CATS[7]}
+function today(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
+function daysLeft(s){if(!s)return null;var p=s.split("-");return Math.round((new Date(+p[0],+p[1]-1,+p[2])-today())/864e5)}
+function fmt(s){if(!s)return"";var p=s.split("-");return p[2]+". "+p[1]+". "+p[0]}
+function say(t){$("msg").textContent=t}
+function status(it){var d=daysLeft(it.expires);if(d===null)return{c:"b-none",t:"bez termínu",n:99999};
+ if(d<0)return{c:"b-bad",t:"po termínu "+(-d)+" dní",n:d};if(d===0)return{c:"b-bad",t:"dnes",n:0};
+ if(d<=(+it.remind||30))return{c:"b-warn",t:"za "+d+(d===1?" den":d<5?" dny":" dní"),n:d};return{c:"b-ok",t:"za "+d+" dní",n:d}}
+/* ===== NASTAVENÍ (uprav před nasazením) ===== */
+var CONFIG={
+  FREE_LIMIT:10,                       // počet položek zdarma
+  BUY_URL:"https://TVUJ-ODKAZ-NA-GUMROAD", // odkaz na prodejní stránku
+  WORKER_URL:""                        // URL tvé ověřovací funkce (viz README); prázdné = bez ověřování
+};
+function licensed(){try{return localStorage.getItem("suplik_lic")==="1"}catch(e){return false}}
+function paywall(){open('<h2 style="margin:0">Odemkni Šuplík</h2><p>Zdarma můžeš uložit '+CONFIG.FREE_LIMIT+' položek. Neomezenou verzi odemkneš jednorázovou platbou. Po koupi dostaneš licenční klíč.</p><a class="btn p" style="display:block;text-align:center;text-decoration:none" href="'+esc(CONFIG.BUY_URL)+'" target="_blank" rel="noopener">Koupit licenci</a><label>Už máš klíč? Vlož ho sem</label><input class="f" id="lk" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX" autocomplete="off"><div class="row" style="margin-top:14px"><button class="btn" id="pX">Zavřít</button><button class="btn p" id="pA">Aktivovat</button></div><div class="m" id="pm" style="margin-top:10px"></div>')}
+async function activate(){var k=$("lk").value.trim(),pm=$("pm");if(!k){pm.textContent="Vlož licenční klíč.";return}
+ if(!CONFIG.WORKER_URL){pm.textContent="Ověřování není nastaveno (viz README).";return}
+ pm.textContent="Ověřuji…";
+ try{var r=await fetch(CONFIG.WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({key:k})});var j=await r.json();
+  if(j.ok){try{localStorage.setItem("suplik_lic","1")}catch(e){}pm.textContent="Hotovo, aplikace je odemčená. Děkujeme!";setTimeout(function(){closeS();render()},900)}
+  else pm.textContent="Klíč je neplatný nebo vrácený."}
+ catch(e){pm.textContent="Ověření vyžaduje připojení k internetu. Zkus to znovu online."}}
+/* storage */
+function openDB(){return new Promise(function(res){try{var r=indexedDB.open("suplik",1);r.onupgradeneeded=function(){r.result.createObjectStore("items",{keyPath:"id"})};r.onsuccess=function(){db=r.result;res(true)};r.onerror=function(){res(false)}}catch(e){res(false)}})}
+function idb(mode,fn){return new Promise(function(res,rej){try{var tx=db.transaction("items",mode),st=tx.objectStore("items"),rq=fn(st);tx.oncomplete=function(){res(rq&&rq.result)};tx.onerror=function(){rej(tx.error)}}catch(e){rej(e)}})}
+function loadAll(){return useIDB?idb("readonly",function(s){return s.getAll()}).then(function(r){items=r||[]}):Promise.resolve()}
+function save(it){var i=items.findIndex(function(x){return x.id===it.id});if(i>=0)items[i]=it;else items.push(it);return useIDB?idb("readwrite",function(s){return s.put(it)}):Promise.resolve()}
+function remove(id){items=items.filter(function(x){return x.id!==id});return useIDB?idb("readwrite",function(s){return s.delete(id)}):Promise.resolve()}
+/* render */
+function renderChips(){var h='<div class="chip'+(cat==="all"?" on":"")+'" data-c="all">Vše</div>';CATS.forEach(function(c){h+='<div class="chip'+(cat===c[0]?" on":"")+'" data-c="'+c[0]+'">'+c[2]+" "+c[1]+"</div>"});$("chips").innerHTML=h}
+function card(it){var s=status(it),c=catOf(it.cat);return'<div class="card" data-id="'+esc(it.id)+'"><div class="ico">'+c[2]+'</div><div class="grow"><div class="t">'+esc(it.title)+'</div><div class="m">'+esc(c[1])+(it.expires?" · do "+fmt(it.expires):"")+((it.files||[]).length?" · 📎"+it.files.length:"")+'</div></div><span class="badge '+s.c+'">'+s.t+"</span></div>"}
+function render(){renderChips();var q=qs.toLowerCase();
+ var all=items.filter(function(it){return(cat==="all"||it.cat===cat)&&(!q||(it.title+" "+(it.note||"")).toLowerCase().indexOf(q)>=0)});
+ all.sort(function(a,b){return status(a).n-status(b).n});
+ var due=items.filter(function(it){var s=status(it);return it.expires&&s.n<=(+it.remind||30)}).sort(function(a,b){return status(a).n-status(b).n});
+ $("alerts").innerHTML=due.length?'<div class="alert"><b>⏰ Pozor, '+due.length+(due.length===1?" věc vyžaduje":" věci vyžadují")+' pozornost</b>'+due.slice(0,4).map(function(it){return'<div class="m" style="color:inherit">'+catOf(it.cat)[2]+" "+esc(it.title)+" – "+status(it).t+"</div>"}).join("")+"</div>":"";
+ $("list").innerHTML=all.length?all.map(card).join(""):'<div class="empty">'+(items.length?"Nic nenalezeno.":"Zatím tu nic není.<br>Klepni na + a přidej první dokument,<br>nebo vyzkoušej ukázková data dole.")+"</div>"}
+/* sheet */
+var cur=null,pending=[];
+function open(h){$("sheet").innerHTML=h;$("sheet").classList.add("on");$("shade").classList.add("on")}
+function closeS(){$("sheet").classList.remove("on");$("shade").classList.remove("on");cur=null;pending=[]}
+function form(it){cur=it||{id:"i"+Date.now(),title:"",cat:"zaruky",expires:"",remind:30,note:"",files:[]};pending=(cur.files||[]).slice();
+ var o=CATS.map(function(c){return'<option value="'+c[0]+'"'+(cur.cat===c[0]?" selected":"")+">"+c[2]+" "+c[1]+"</option>"}).join("");
+ var rm=[7,14,30,60,90].map(function(n){return'<option value="'+n+'"'+(+cur.remind===n?" selected":"")+">"+n+" dní předem</option>"}).join("");
+ open('<h2 style="margin:0">'+(it?"Upravit":"Nový dokument")+'</h2><label>Název</label><input class="f" id="fT" value="'+esc(cur.title)+'" placeholder="např. Záruka na pračku"><label>Kategorie</label><select class="f" id="fC">'+o+'</select><div class="row"><div><label>Platí do / konec lhůty</label><input class="f" id="fE" type="date" value="'+esc(cur.expires)+'"></div><div><label>Upozornit</label><select class="f" id="fR">'+rm+'</select></div></div><label>Poznámka</label><textarea class="f" id="fN" rows="3" placeholder="číslo smlouvy, kde je originál…">'+esc(cur.note)+'</textarea><label>Fotka nebo soubor</label><input class="f" id="fF" type="file" accept="image/*,application/pdf" multiple><div id="fl"></div><div class="warnbox" id="wb" style="display:none">⚠️ Kopie dokladů totožnosti jsou citlivé. Data jsou jen v tomto zařízení; zamkni telefon a zálohu ukládej bezpečně.</div><div class="row" style="margin-top:18px"><button class="btn" id="fX">Zrušit</button><button class="btn p" id="fS">Uložit</button></div>');
+ fileList();toggleWarn()}
+function toggleWarn(){$("wb").style.display=$("fC").value==="doklady"?"block":"none"}
+function fileList(){$("fl").innerHTML=pending.map(function(f,i){return'<span class="fl">📎 '+esc(f.name)+' <a href="#" data-rm="'+i+'" style="color:var(--bad)">✕</a></span>'}).join("")}
+function detail(id){var it=items.filter(function(x){return x.id===id})[0];if(!it)return;var s=status(it),c=catOf(it.cat);
+ var imgs=(it.files||[]).filter(function(f){return f.blob&&/^image\//.test(f.type)}).map(function(f){return'<img alt="'+esc(f.name)+'" src="'+URL.createObjectURL(f.blob)+'">'}).join("");
+ var oth=(it.files||[]).filter(function(f){return!/^image\//.test(f.type)}).map(function(f){return'<span class="fl">📎 '+esc(f.name)+"</span>"}).join("");
+ open('<div style="display:flex;gap:12px;align-items:center"><div class="ico">'+c[2]+'</div><div class="grow"><h2 style="margin:0">'+esc(it.title)+'</h2><div class="m">'+esc(c[1])+'</div></div></div><div style="margin:14px 0"><span class="badge '+s.c+'">'+s.t+"</span> "+(it.expires?'<span class="m">do '+fmt(it.expires)+" · upozornění "+(+it.remind||30)+" dní předem</span>":"")+"</div>"+(it.note?'<div style="white-space:pre-wrap">'+esc(it.note)+"</div>":"")+'<div class="thumbs">'+imgs+"</div><div>"+oth+'</div><div class="row" style="margin-top:18px"><button class="btn d" id="dD" data-id="'+esc(id)+'">Smazat</button><button class="btn" id="dX">Zavřít</button><button class="btn p" id="dE" data-id="'+esc(id)+'">Upravit</button></div>')}
+/* actions */
+function backup(){return Promise.all(items.map(function(it){return Promise.all((it.files||[]).map(function(f){return new Promise(function(r){var fr=new FileReader();fr.onload=function(){r({name:f.name,type:f.type,data:fr.result})};fr.onerror=function(){r(null)};fr.readAsDataURL(f.blob)})})).then(function(fs){var c=Object.assign({},it);c.files=fs.filter(Boolean);return c})}))}
+async function doBackup(){try{var d=await backup();var b=new Blob([JSON.stringify(d)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="suplik-zaloha.json";document.body.appendChild(a);a.click();a.remove();say("Záloha stažena.")}catch(e){say("Zálohu se nepodařilo vytvořit.")}}
+function toBlob(u){var p=u.split(","),m=(p[0].match(/:(.*?);/)||[])[1]||"application/octet-stream",b=atob(p[1]),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new Blob([a],{type:m})}
+async function doRestore(file){try{var arr=JSON.parse(await file.text());for(var i=0;i<arr.length;i++){var it=arr[i];it.files=(it.files||[]).map(function(f){return{name:f.name,type:f.type,blob:toBlob(f.data)}});await save(it)}render();say("Obnoveno "+arr.length+" položek.")}catch(e){say("Soubor se nepodařilo načíst.")}}
+async function demo(){function d(n){var x=today();x.setDate(x.getDate()+n);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
+ var s=[["Občanský průkaz","doklady",d(210),90,"Nezapomeň na novou fotku"],["Záruka – pračka","zaruky",d(18),30,"Koupeno v e-shopu, účtenka v e-mailu"],["Povinné ručení","pojisteni",d(9),30,"Výročí smlouvy, porovnat nabídky"],["Technická kontrola (STK)","auto",d(-4),30,"Objednat termín"],["Nájemní smlouva","smlouvy",d(300),60,""],["Faktura za internet","faktury","",30,"Zaplaceno"]];
+ for(var i=0;i<s.length;i++)if(items.length<CONFIG.FREE_LIMIT||licensed())await save({id:"demo"+i,title:s[i][0],cat:s[i][1],expires:s[i][2],remind:s[i][3],note:s[i][4],files:[]});render()}
+/* events */
+document.addEventListener("click",async function(e){var t=e.target;
+ var chip=t.closest&&t.closest(".chip");if(chip){cat=chip.dataset.c;render();return}
+ var cd=t.closest&&t.closest(".card");if(cd){detail(cd.dataset.id);return}
+ if(t.dataset&&t.dataset.rm!==undefined){e.preventDefault();pending.splice(+t.dataset.rm,1);fileList();return}
+ switch(t.id){case"add":form();break;case"shade":case"fX":case"dX":closeS();break;
+  case"dE":form(items.filter(function(x){return x.id===t.dataset.id})[0]);break;
+  case"dD":if(confirm("Opravdu smazat?")){await remove(t.dataset.id);closeS();render()}break;
+  case"fS":var ti=$("fT").value.trim();if(!ti){$("fT").focus();return}
+   var isNew=!items.some(function(x){return x.id===cur.id});if(isNew&&!licensed()&&items.length>=CONFIG.FREE_LIMIT){paywall();return}
+   cur.title=ti;cur.cat=$("fC").value;cur.expires=$("fE").value;cur.remind=+$("fR").value;cur.note=$("fN").value;cur.files=pending;
+   try{await save(cur);closeS();render()}catch(err){say("Uložení se nepodařilo (málo místa?).")}break;
+  case"bBackup":doBackup();break;case"pX":closeS();break;case"pA":activate();break;case"bRestore":$("fRestore").click();break;case"bDemo":demo();break}});
+document.addEventListener("change",function(e){var t=e.target;
+ if(t.id==="fC")toggleWarn();
+ if(t.id==="fF"){Array.prototype.forEach.call(t.files,function(f){pending.push({name:f.name,type:f.type,blob:f})});t.value="";fileList()}
+ if(t.id==="fRestore"&&t.files[0]){doRestore(t.files[0]);t.value=""}});
+$("q").addEventListener("input",function(e){qs=e.target.value;render()});
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+(async function(){useIDB=await openDB();try{await loadAll()}catch(e){useIDB=false}
+ if(!useIDB)say("Úložiště prohlížeče není dostupné, data se neuloží trvale.");render()})();
+</script>
+</body>
+</html>
